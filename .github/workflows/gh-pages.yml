@@ -36,10 +36,11 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         # Creates, uploads artifact `$github-pages`, single `tgz` file (constraints: size, links, permissions)
-        # :name = github-pages
-        # :path = _site/
-        # :retention-days = 1
-        # 
+        # :name = github-pages  # artifact name
+        # :path = _site/  # source path
+        # :retention-days = 1  # 
+          with:
+            path: ./
   deploy:
     needs: build
     runs-on: ubuntu-latest

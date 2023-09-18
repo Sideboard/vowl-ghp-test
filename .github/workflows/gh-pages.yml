@@ -30,7 +30,7 @@ jobs:
           java-version: '11'
       - name: Convert to VOWL
         run: |
-          wget https://github.com/VisualDataWeb/OWL2VOWL/archive/refs/tags/0.3.7.tar.gz -O owl2vowl.tgz
+          wget https://github.com/VisualDataWeb/OWL2VOWL/archive/refs/tags/0.3.7.tar.gz -O owl2vowl.zip
           unzip owl2vowl.zip owl2vowl.jar
           java -jar owl2vowl.jar -file test.ttl -output test.vowl.json
       - name: Upload artifact

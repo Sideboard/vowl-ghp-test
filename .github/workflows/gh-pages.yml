@@ -39,8 +39,8 @@ jobs:
         # :name = github-pages  # artifact name
         # :path = _site/  # source path
         # :retention-days = 1  # 
-          with:
-            path: ./
+        with:
+          path: ./
   deploy:
     needs: build
     runs-on: ubuntu-latest

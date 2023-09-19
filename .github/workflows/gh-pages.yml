@@ -23,32 +23,17 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Pages
         uses: actions/configure-pages@v3
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '11'
-      - name: Create Site Directory
+      - name: Convert OWL
+        env:
+          widoco_url: https://github.com/dgarijo/Widoco/releases/download/v1.4.17/java-11-widoco-1.4.17-jar-with-dependencies.jar
+          ont_file: test.ttl
         run: |
-          mkdir ./_site
-          mv index.html ./_site
-      - name: Convert to VOWL
-        run: |
-          wget http://vowl.visualdataweb.org/downloads/owl2vowl_0.3.7.zip -O owl2vowl.zip
-          unzip owl2vowl.zip owl2vowl.jar
-          java -jar owl2vowl.jar -file test.ttl -output ./_site/test.vowl.json
-          mv test.ttl ./_site/test.ttl
-      - name: Setup WebVOWL
-        run: |
-          mkdir webvowl
-          wget http://vowl.visualdataweb.org/downloads/webvowl_1.1.7.zip -O webvowl.zip
-          unzip webvowl.zip -d ./_site/webvowl
+          wget $widoco_url -O widoco.jar
+          java -jar widoco.jar -ontFile $ont_file -outFolder ./_site \
+               -uniteSections -includeAnnotationProperties -webVowl
+          mv ./_site/index-en.html ./_site/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
-        # Creates, uploads artifact `$github-pages`, single `tgz` file (constraints: size, links, permissions)
-        # :name = github-pages  # artifact name
-        # :path = _site/  # source path
-        # :retention-days = 1  # 
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -59,4 +44,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
-    
